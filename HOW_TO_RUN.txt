@@ -1,0 +1,100 @@
+==========================================
+ST-HDC AIR WRITING APP - HOW TO RUN
+==========================================
+
+IMPORTANT: This is a DESKTOP APPLICATION, NOT a web browser app.
+You do NOT need to open a browser or go to localhost:8080.
+
+==========================================
+STEP-BY-STEP INSTRUCTIONS:
+==========================================
+
+1. OPEN POWERSHELL IN YOUR PROJECT FOLDER:
+   - Open File Explorer
+   - Go to: C:\Users\pooja\finalyearproject
+   - Click in the address bar (where the path is shown)
+   - Type: powershell
+   - Press Enter
+   - A black PowerShell window will open
+
+2. INSTALL DEPENDENCIES (do this ONCE):
+   In the PowerShell window, type:
+   
+   py -m pip install -r requirements.txt
+   
+   (or: pip install -r requirements.txt)
+   
+   Wait for it to finish installing.
+
+3. RUN THE APP:
+   In the same PowerShell window, type:
+   
+   py st_hdc_airwriting.py
+   
+   (or: python st_hdc_airwriting.py)
+
+4. A WINDOW WILL APPEAR:
+   - Window title: "ST-HDC Air Writing"
+   - Shows your webcam feed
+   - Shows hand landmarks when your hand is detected
+   - Shows status text on the screen
+
+5. HOW TO USE:
+   
+   a) ENROLL A LETTER (one-time setup):
+      - Press 'e' key until you see "Mode: enroll"
+      - Press 'n' key to choose a letter (A, B, C, etc.)
+      - Press 'r' key to START recording
+      - Write the letter in the air with your hand
+      - Press 'r' key again to STOP recording
+      - You should see: "Enrolled 'A'" (or whatever letter)
+   
+   b) RECOGNIZE LETTERS:
+      - Press 'e' key to switch to "Mode: recognize"
+      - Press 'r' key to START recording
+      - Write the same letter in the air
+      - Press 'r' key again to STOP recording
+      - The letter will appear in the "Text:" line on screen
+      - The letter will be spoken aloud (if audio works)
+   
+   c) QUIT:
+      - Press 'q' key to close the app
+
+==========================================
+KEYBOARD CONTROLS:
+==========================================
+   'r' = Start/Stop recording a gesture
+   'e' = Toggle between enroll/recognize mode
+   'n' = Change enrollment label (A-Z)
+   'q' = Quit the application
+
+==========================================
+TROUBLESHOOTING:
+==========================================
+
+- If you see "Could not open webcam":
+  → Make sure your webcam is connected and not used by another app
+
+- If the window doesn't appear:
+  → Check the PowerShell window for error messages
+  → Make sure all dependencies are installed
+
+- If recognition doesn't work:
+  → Make sure you enrolled the letter first in "enroll" mode
+  → Try enrolling the same letter again
+
+- If you see model download messages:
+  → This is normal on first run - the app downloads the hand tracking model
+  → Wait for it to finish (may take a minute)
+
+==========================================
+WHAT YOU'LL SEE ON SCREEN:
+==========================================
+- Mode: enroll or recognize
+- Enroll label: The letter you're currently enrolling
+- Recording: True/False (whether you're recording now)
+- Last: The last action result
+- Text: The recognized letters appear here
+
+==========================================
+
