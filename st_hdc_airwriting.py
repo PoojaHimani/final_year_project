@@ -91,11 +91,114 @@ def cosine_similarity(a, b):
     return float(np.dot(a, b) / denom)
 
 # ==============================
+# Default Letter Templates
+# ==============================
+def create_default_letter_templates():
+    """
+    Create default letter templates based on typical air-writing patterns.
+    These represent common letter shapes and trajectories.
+    
+    Note: These are generic templates. For best results, train your own
+    letters using Training Mode (press 't' key) to match your writing style.
+    """
+    templates = {}
+    
+    # Define typical letter trajectories (simplified patterns)
+    # Each letter is represented as a sequence of (x, y, z) positions over time
+    letter_patterns = {
+        'A': [(0.3, 0.8, 0.5), (0.5, 0.2, 0.5), (0.7, 0.8, 0.5), (0.4, 0.5, 0.5), (0.6, 0.5, 0.5)],
+        'B': [(0.3, 0.2, 0.5), (0.3, 0.8, 0.5), (0.3, 0.5, 0.5), (0.6, 0.3, 0.5), (0.3, 0.5, 0.5), (0.6, 0.7, 0.5)],
+        'C': [(0.7, 0.5, 0.5), (0.4, 0.3, 0.5), (0.4, 0.7, 0.5), (0.6, 0.5, 0.5)],
+        'D': [(0.3, 0.2, 0.5), (0.3, 0.8, 0.5), (0.3, 0.5, 0.5), (0.6, 0.3, 0.5), (0.6, 0.7, 0.5), (0.3, 0.5, 0.5)],
+        'E': [(0.3, 0.2, 0.5), (0.3, 0.8, 0.5), (0.3, 0.5, 0.5), (0.6, 0.5, 0.5), (0.3, 0.2, 0.5), (0.6, 0.2, 0.5), (0.3, 0.8, 0.5), (0.6, 0.8, 0.5)],
+        'F': [(0.3, 0.2, 0.5), (0.3, 0.8, 0.5), (0.3, 0.5, 0.5), (0.6, 0.5, 0.5), (0.3, 0.2, 0.5), (0.6, 0.2, 0.5)],
+        'G': [(0.7, 0.5, 0.5), (0.4, 0.3, 0.5), (0.4, 0.7, 0.5), (0.6, 0.5, 0.5), (0.6, 0.7, 0.5), (0.5, 0.7, 0.5)],
+        'H': [(0.3, 0.2, 0.5), (0.3, 0.8, 0.5), (0.3, 0.5, 0.5), (0.7, 0.5, 0.5), (0.7, 0.2, 0.5), (0.7, 0.8, 0.5)],
+        'I': [(0.5, 0.2, 0.5), (0.5, 0.8, 0.5)],
+        'J': [(0.7, 0.2, 0.5), (0.7, 0.7, 0.5), (0.5, 0.8, 0.5), (0.4, 0.7, 0.5)],
+        'K': [(0.3, 0.2, 0.5), (0.3, 0.8, 0.5), (0.3, 0.5, 0.5), (0.7, 0.2, 0.5), (0.3, 0.5, 0.5), (0.7, 0.8, 0.5)],
+        'L': [(0.3, 0.2, 0.5), (0.3, 0.8, 0.5), (0.3, 0.8, 0.5), (0.7, 0.8, 0.5)],
+        'M': [(0.3, 0.8, 0.5), (0.3, 0.2, 0.5), (0.5, 0.5, 0.5), (0.7, 0.2, 0.5), (0.7, 0.8, 0.5)],
+        'N': [(0.3, 0.8, 0.5), (0.3, 0.2, 0.5), (0.7, 0.8, 0.5), (0.7, 0.2, 0.5)],
+        'O': [(0.5, 0.3, 0.5), (0.7, 0.5, 0.5), (0.5, 0.7, 0.5), (0.3, 0.5, 0.5), (0.5, 0.3, 0.5)],
+        'P': [(0.3, 0.2, 0.5), (0.3, 0.8, 0.5), (0.3, 0.5, 0.5), (0.6, 0.4, 0.5), (0.3, 0.5, 0.5)],
+        'Q': [(0.5, 0.3, 0.5), (0.7, 0.5, 0.5), (0.5, 0.7, 0.5), (0.3, 0.5, 0.5), (0.5, 0.3, 0.5), (0.6, 0.7, 0.5)],
+        'R': [(0.3, 0.2, 0.5), (0.3, 0.8, 0.5), (0.3, 0.5, 0.5), (0.6, 0.4, 0.5), (0.3, 0.5, 0.5), (0.6, 0.8, 0.5)],
+        'S': [(0.6, 0.3, 0.5), (0.4, 0.3, 0.5), (0.4, 0.5, 0.5), (0.6, 0.5, 0.5), (0.6, 0.7, 0.5), (0.4, 0.7, 0.5)],
+        'T': [(0.5, 0.2, 0.5), (0.5, 0.8, 0.5), (0.3, 0.2, 0.5), (0.7, 0.2, 0.5)],
+        'U': [(0.3, 0.2, 0.5), (0.3, 0.7, 0.5), (0.5, 0.8, 0.5), (0.7, 0.7, 0.5), (0.7, 0.2, 0.5)],
+        'V': [(0.3, 0.2, 0.5), (0.5, 0.8, 0.5), (0.7, 0.2, 0.5)],
+        'W': [(0.3, 0.2, 0.5), (0.3, 0.8, 0.5), (0.5, 0.6, 0.5), (0.7, 0.8, 0.5), (0.7, 0.2, 0.5)],
+        'X': [(0.3, 0.2, 0.5), (0.7, 0.8, 0.5), (0.5, 0.5, 0.5), (0.7, 0.2, 0.5), (0.3, 0.8, 0.5)],
+        'Y': [(0.3, 0.2, 0.5), (0.5, 0.5, 0.5), (0.7, 0.2, 0.5), (0.5, 0.5, 0.5), (0.5, 0.8, 0.5)],
+        'Z': [(0.3, 0.2, 0.5), (0.7, 0.2, 0.5), (0.3, 0.8, 0.5), (0.7, 0.8, 0.5)],
+        # Lowercase letters (different shapes)
+        'a': [(0.5, 0.6, 0.5), (0.7, 0.5, 0.5), (0.5, 0.7, 0.5), (0.3, 0.5, 0.5), (0.5, 0.6, 0.5), (0.5, 0.8, 0.5)],
+        'b': [(0.3, 0.2, 0.5), (0.3, 0.8, 0.5), (0.3, 0.6, 0.5), (0.6, 0.5, 0.5), (0.3, 0.6, 0.5)],
+        'c': [(0.6, 0.5, 0.5), (0.4, 0.4, 0.5), (0.4, 0.6, 0.5), (0.5, 0.5, 0.5)],
+        'd': [(0.7, 0.2, 0.5), (0.7, 0.8, 0.5), (0.7, 0.6, 0.5), (0.4, 0.5, 0.5), (0.7, 0.6, 0.5)],
+        'e': [(0.3, 0.5, 0.5), (0.6, 0.5, 0.5), (0.3, 0.4, 0.5), (0.5, 0.4, 0.5), (0.3, 0.5, 0.5), (0.3, 0.6, 0.5), (0.5, 0.6, 0.5)],
+        'f': [(0.5, 0.2, 0.5), (0.5, 0.8, 0.5), (0.3, 0.5, 0.5), (0.6, 0.5, 0.5), (0.3, 0.2, 0.5), (0.6, 0.2, 0.5)],
+        'g': [(0.5, 0.6, 0.5), (0.7, 0.5, 0.5), (0.5, 0.7, 0.5), (0.3, 0.5, 0.5), (0.5, 0.6, 0.5), (0.5, 0.8, 0.5), (0.4, 0.9, 0.5)],
+        'h': [(0.3, 0.2, 0.5), (0.3, 0.8, 0.5), (0.3, 0.6, 0.5), (0.7, 0.6, 0.5), (0.7, 0.8, 0.5)],
+        'i': [(0.5, 0.2, 0.5), (0.5, 0.7, 0.5), (0.5, 0.2, 0.5)],
+        'j': [(0.7, 0.2, 0.5), (0.7, 0.7, 0.5), (0.5, 0.8, 0.5), (0.4, 0.7, 0.5)],
+        'k': [(0.3, 0.2, 0.5), (0.3, 0.8, 0.5), (0.3, 0.6, 0.5), (0.7, 0.4, 0.5), (0.3, 0.6, 0.5), (0.7, 0.8, 0.5)],
+        'l': [(0.3, 0.2, 0.5), (0.3, 0.8, 0.5), (0.3, 0.8, 0.5), (0.5, 0.8, 0.5)],
+        'm': [(0.3, 0.6, 0.5), (0.3, 0.8, 0.5), (0.4, 0.5, 0.5), (0.6, 0.5, 0.5), (0.7, 0.6, 0.5), (0.7, 0.8, 0.5)],
+        'n': [(0.3, 0.6, 0.5), (0.3, 0.8, 0.5), (0.5, 0.5, 0.5), (0.7, 0.6, 0.5), (0.7, 0.8, 0.5)],
+        'o': [(0.5, 0.5, 0.5), (0.6, 0.4, 0.5), (0.5, 0.6, 0.5), (0.4, 0.4, 0.5), (0.5, 0.5, 0.5)],
+        'p': [(0.3, 0.2, 0.5), (0.3, 0.8, 0.5), (0.3, 0.6, 0.5), (0.6, 0.5, 0.5), (0.3, 0.6, 0.5)],
+        'q': [(0.5, 0.5, 0.5), (0.6, 0.4, 0.5), (0.5, 0.6, 0.5), (0.4, 0.4, 0.5), (0.5, 0.5, 0.5), (0.5, 0.8, 0.5), (0.4, 0.9, 0.5)],
+        'r': [(0.3, 0.2, 0.5), (0.3, 0.8, 0.5), (0.3, 0.6, 0.5), (0.6, 0.5, 0.5), (0.3, 0.6, 0.5), (0.5, 0.7, 0.5)],
+        's': [(0.5, 0.4, 0.5), (0.4, 0.4, 0.5), (0.4, 0.5, 0.5), (0.5, 0.5, 0.5), (0.5, 0.6, 0.5), (0.4, 0.6, 0.5)],
+        't': [(0.5, 0.2, 0.5), (0.5, 0.8, 0.5), (0.3, 0.2, 0.5), (0.7, 0.2, 0.5)],
+        'u': [(0.3, 0.6, 0.5), (0.3, 0.8, 0.5), (0.5, 0.8, 0.5), (0.7, 0.8, 0.5), (0.7, 0.6, 0.5)],
+        'v': [(0.3, 0.6, 0.5), (0.5, 0.8, 0.5), (0.7, 0.6, 0.5)],
+        'w': [(0.3, 0.6, 0.5), (0.3, 0.8, 0.5), (0.5, 0.7, 0.5), (0.7, 0.8, 0.5), (0.7, 0.6, 0.5)],
+        'x': [(0.3, 0.6, 0.5), (0.7, 0.8, 0.5), (0.5, 0.7, 0.5), (0.7, 0.6, 0.5), (0.3, 0.8, 0.5)],
+        'y': [(0.3, 0.6, 0.5), (0.5, 0.7, 0.5), (0.7, 0.6, 0.5), (0.5, 0.7, 0.5), (0.5, 0.9, 0.5)],
+        'z': [(0.3, 0.6, 0.5), (0.7, 0.6, 0.5), (0.3, 0.8, 0.5), (0.7, 0.8, 0.5)],
+    }
+    
+    # Convert patterns to hypervectors
+    for letter, pattern in letter_patterns.items():
+        # Create frame hypervectors for each point in the pattern
+        frame_hvs = []
+        for point in pattern:
+            # Create a normalized landmark set (simplified - using index finger tip as primary)
+            # In real usage, we'd have 21 landmarks, but for templates we simulate
+            landmarks = []
+            # Use the point as the index finger tip (landmark 8), and create relative positions
+            base_x, base_y, base_z = point
+            for i in range(21):
+                # Create landmarks relative to the base point with some variation
+                offset = 0.1 * (i / 21.0)  # Small offset for each landmark
+                x = max(0.0, min(1.0, base_x + (i % 3 - 1) * offset))
+                y = max(0.0, min(1.0, base_y + ((i // 3) % 3 - 1) * offset))
+                z = max(0.0, min(1.0, base_z + ((i // 9) % 3 - 1) * offset * 0.5))
+                landmarks.append((x, y, z))
+            
+            # Normalize landmarks
+            norm_landmarks = normalize_landmarks(landmarks)
+            # Create frame hypervector
+            S_t = frame_hv(norm_landmarks)
+            frame_hvs.append(S_t)
+        
+        # Encode the full gesture
+        G = encode_gesture(frame_hvs)
+        if G is not None:
+            templates[letter] = G
+    
+    return templates
+
+# ==============================
 # Associative Memory (One-shot)
 # ==============================
 class OneShotMemory:
     def __init__(self):
         self.store = {}  # label -> hypervector
+        self.model_file = "trained_letters.npz"
 
     def enroll(self, label, hv):
         """Store / overwrite the hypervector for a label."""
@@ -122,6 +225,44 @@ class OneShotMemory:
         if best_sim < threshold:
             return None, best_sim
         return best_label, best_sim
+    
+    def save(self):
+        """Save trained models to file."""
+        try:
+            np.savez(self.model_file, **{k: v for k, v in self.store.items()})
+            return True
+        except Exception as e:
+            print(f"Error saving model: {e}")
+            return False
+    
+    def load(self):
+        """Load trained models from file."""
+        try:
+            if os.path.exists(self.model_file):
+                data = np.load(self.model_file)
+                self.store = {k: data[k] for k in data.keys()}
+                return True
+        except Exception as e:
+            print(f"Error loading model: {e}")
+        return False
+    
+    def load_defaults(self):
+        """Load default letter templates."""
+        print("Loading default letter templates...")
+        defaults = create_default_letter_templates()
+        self.store.update(defaults)
+        uppercase = sum(1 for k in defaults.keys() if k.isupper())
+        lowercase = sum(1 for k in defaults.keys() if k.islower())
+        print(f"✓ Loaded {len(defaults)} default letter templates ({uppercase} uppercase + {lowercase} lowercase)")
+        return len(defaults) > 0
+    
+    def get_trained_letters(self):
+        """Get list of trained letters."""
+        return sorted(list(self.store.keys()))
+    
+    def clear(self):
+        """Clear all trained models."""
+        self.store = {}
 
 # ==============================
 # Text-to-Speech
@@ -283,19 +424,43 @@ def main():
     memory = OneShotMemory()
     tts_engine = init_tts()
     
+    # Try to load previously trained models
+    if memory.load():
+        trained = memory.get_trained_letters()
+        if trained:
+            print(f"✓ Loaded {len(trained)} trained letters from file: {', '.join(trained)}")
+        else:
+            # Load default templates if file exists but is empty
+            memory.load_defaults()
+    else:
+        # No saved file - load default templates
+        print("No saved models found. Loading default letter templates...")
+        memory.load_defaults()
+        print("✓ Default templates loaded! You can start recognizing letters immediately.")
+        print("  (You can still train your own letters with 't' key to improve accuracy)")
+    
     recording = False
     gesture_frames = []
-    mode = "recognize"   # or "enroll"
+    mode = "recognize"   # or "enroll" or "train"
     enroll_label = "A"
     text_buffer = ""
     last_status = "Ready - Press 'r' to start"
+    training_mode = False  # Special training mode for all letters
     
     print("\n" + "=" * 50)
     print("Controls:")
     print("  r : start/stop recording a gesture")
     print("  e : toggle enroll/recognize mode")
-    print("  n : next label for enrollment (A-Z)")
+    print("  n : next label for enrollment (A-Z, a-z)")
+    print("  t : TRAINING MODE - train all letters A-Z and a-z automatically")
+    print("  s : save trained models to file")
     print("  q : quit")
+    print("=" * 50)
+    print("\nTRAINING MODE (Recommended):")
+    print("  1. Press 't' to enter training mode")
+    print("  2. Train each letter A-Z, then a-z (auto-advances)")
+    print("  3. Press 's' to save when done")
+    print("  4. Models auto-load on next run!")
     print("=" * 50)
     print("\nStarting application...\n")
     
@@ -327,26 +492,37 @@ def main():
                 cv2.circle(frame, (cx, cy), 3, (0, 255, 0), -1)
         
         # Overlay UI text
+        trained_count = len(memory.store)
         cv2.putText(frame, f"Mode: {mode}", (10, 30),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
         cv2.putText(frame, f"Enroll label: {enroll_label}", (10, 60),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
-        cv2.putText(frame, f"Recording: {recording}", (10, 90),
+        cv2.putText(frame, f"Trained: {trained_count}/26 letters", (10, 90),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 165, 0), 2)
+        cv2.putText(frame, f"Recording: {recording}", (10, 120),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
-        cv2.putText(frame, f"Last: {last_status}", (10, 120),
+        cv2.putText(frame, f"Last: {last_status}", (10, 150),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
-        cv2.putText(frame, f"Text: {text_buffer[-40:]}", (10, 150),
+        cv2.putText(frame, f"Text: {text_buffer[-40:]}", (10, 180),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 0), 2)
         
         # Add instructions
         if mode == "enroll":
-            cv2.putText(frame, "INSTRUCTIONS: Press 'r' to record, write letter in air, press 'r' again", 
-                       (10, h - 60), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
-            cv2.putText(frame, "You MUST enroll letters before recognizing them!", 
-                       (10, h - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 1)
+            if training_mode:
+                cv2.putText(frame, "TRAINING MODE: Training all letters A-Z, then a-z", 
+                           (10, h - 90), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
+                cv2.putText(frame, f"Current: {enroll_label} - Press 'r' to record, write letter, press 'r' again", 
+                           (10, h - 60), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
+                cv2.putText(frame, "Press 's' to save all trained letters, 't' to exit training mode", 
+                           (10, h - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 1)
+            else:
+                cv2.putText(frame, "INSTRUCTIONS: Press 'r' to record, write letter in air, press 'r' again", 
+                           (10, h - 60), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
+                cv2.putText(frame, "Press 't' for TRAINING MODE (train all letters), 's' to save", 
+                           (10, h - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 1)
         else:
             if not memory.store:
-                cv2.putText(frame, "WARNING: No letters enrolled! Press 'e' to enroll first", 
+                cv2.putText(frame, "WARNING: No letters trained! Press 't' for training mode or 'e' to enroll", 
                            (10, h - 60), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1)
             cv2.putText(frame, "INSTRUCTIONS: Press 'r' to record, write letter, press 'r' again", 
                        (10, h - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
@@ -367,6 +543,21 @@ def main():
                         memory.enroll(enroll_label, G)
                         last_status = f"Enrolled '{enroll_label}'"
                         print(f"✓ Enrolled '{enroll_label}'")
+                        # Auto-save after each enrollment
+                        if memory.save():
+                            print(f"  (Auto-saved)")
+                        # Auto-advance in training mode
+                        if training_mode:
+                            current_letter = enroll_label
+                            if enroll_label == "Z":
+                                enroll_label = "a"  # Switch to lowercase after Z
+                                last_status = f"Enrolled '{current_letter}'. Next: {enroll_label} (lowercase)"
+                            elif enroll_label == "z":
+                                enroll_label = "A"  # Cycle back to uppercase
+                                last_status = "Training complete! All letters (A-Z, a-z) trained. Press 's' to save."
+                            else:
+                                enroll_label = chr(ord(enroll_label) + 1)
+                                last_status = f"Enrolled '{current_letter}'. Next: {enroll_label}"
                     else:
                         label, sim = memory.recognize(G)
                         if label is not None:
@@ -386,11 +577,49 @@ def main():
         
         if key == ord("n"):
             if enroll_label == "Z":
-                enroll_label = "A"
+                enroll_label = "a"  # Switch to lowercase after Z
+            elif enroll_label == "z":
+                enroll_label = "A"  # Cycle back to uppercase
             else:
                 enroll_label = chr(ord(enroll_label) + 1)
             last_status = f"Next enroll label: {enroll_label}"
             print(f"Enroll label: {enroll_label}")
+        
+        if key == ord("t"):
+            # Toggle training mode
+            if mode == "enroll":
+                training_mode = not training_mode
+                if training_mode:
+                    enroll_label = "A"
+                    last_status = "TRAINING MODE: Start with letter A. Press 'r' to record each letter."
+                    print("=" * 50)
+                    print("TRAINING MODE ACTIVATED")
+                    print("Train all letters A-Z, then a-z. Auto-advances after each letter.")
+                    print("Press 's' to save, 't' again to exit training mode.")
+                    print("=" * 50)
+                else:
+                    last_status = "Training mode deactivated"
+                    print("Training mode deactivated")
+            else:
+                # Switch to enroll mode and activate training
+                mode = "enroll"
+                training_mode = True
+                enroll_label = "A"
+                last_status = "TRAINING MODE: Start with letter A"
+                print("=" * 50)
+                print("TRAINING MODE ACTIVATED")
+                print("Train all letters A-Z, then a-z. Auto-advances after each letter.")
+                print("=" * 50)
+        
+        if key == ord("s"):
+            # Save trained models
+            if memory.save():
+                trained = memory.get_trained_letters()
+                last_status = f"Saved {len(trained)} letters: {', '.join(trained)}"
+                print(f"✓ Saved {len(trained)} trained letters to {memory.model_file}")
+            else:
+                last_status = "Error saving models"
+                print("✗ Error saving models")
     
     cap.release()
     cv2.destroyAllWindows()
